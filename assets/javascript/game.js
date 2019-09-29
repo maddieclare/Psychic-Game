@@ -3,8 +3,8 @@ var alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 
 // computer selects letter at random and stores in a var
-var compChoice = alphabet.charAt(Math.random() * 26)
-console.log(compChoice)
+var compChoice = alphabet.charAt(Math.random() * 26);
+console.log(compChoice);
 
 
 // var keeping track of letters that player has guessed
