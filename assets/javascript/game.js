@@ -1,6 +1,9 @@
 // var with letters of the alphabet
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
 
+// array keeping track of letters that player has guessed
+var lettersGuessed = [];
+
 // computer selects letter at random and stores in a var
 var compChoice = alphabet.charAt(Math.random() * 26);
 console.log(compChoice);
@@ -13,11 +16,16 @@ document.onkeyup = function(selection) {
   // function preventing any non-alphabetical key from being counted as a guess
   if (alphabet.search(userGuess) == -1) {
     alert("Please guess a valid letter of the alphabet.");
-    // & don't add this to the guessesLeft or lettersGuessed variables
+    return;
+  } else if (lettersGuessed.indexOf(userGuess) !== -1) {
+    alert("You've already guessed that letter!");
+    return;
+  } else {
+      lettersGuessed.push(userGuess);
+      console.log(lettersGuessed);
   }
 };
 
-// var keeping track of letters that player has guessed
 // key press adds letter to var
 // can't guess the same letter twice
 
