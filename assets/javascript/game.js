@@ -30,7 +30,6 @@ function getStats() {
 // selects character at random from alphabet variable
 function compSelect() {
   compChoice = alphabet.charAt(Math.random() * 26);
-  console.log("Computer's selection: " + compChoice);
 }
 
 // prevents player from guessing the same letter twice
@@ -43,16 +42,10 @@ function notLetter() {
   alert("Please choose a valid letter.");
 }
 
-// pushes valid player guesses to lettersGuessed array
+// pushes valid player guesses to lettersGuessed array and decreases guessesLeft variable by 1
 function letterTrack() {
   lettersGuessed.push(userGuess);
   guessesLeft -= 1;
-  console.log("Letters guessed: " + lettersGuessed);
-}
-
-// decreases guessesLeft variable by 1 after each valid (incorrect) user guess
-function guessCounter() {
-  console.log("Guesses left: " + guessesLeft);
 }
 
 // player lose condition
@@ -61,9 +54,6 @@ function playerLoss() {
   playerLosses += 1;
   lettersGuessed = [];
   guessesLeft = 9;
-  console.clear();
-  console.log("Player losses: " + playerLosses);
-  console.log("Player wins: " + playerWins);
 }
 
 // player win condition
@@ -72,23 +62,21 @@ function playerWin() {
   playerWins += 1;
   lettersGuessed = [];
   guessesLeft = 9;
-  console.clear();
-  console.log("Player wins: " + playerWins);
-  console.log("Player losses: " + playerLosses);
 }
+
+getStats();
 
 compSelect();
 
 // player can guess any letter of the alphabet by pressing the corresponding key
 document.onkeyup = function(selection) {
   // key press adds letter to variable
-  userGuess = selection.key;
-  console.log("Player guess: " + userGuess);
+  userGuess = selection.key.toLowerCase();
 
   if (userGuess == compChoice) {
     playerWin();
     compSelect();
-  } else if (alphabet.search(/abcdefghijklmnopqrstuvwxyz/i) == -1) {
+  } else if (userGuess.search(/^[A-Za-z]+$/)) {
     notLetter();
   } else if (lettersGuessed.indexOf(userGuess) !== -1) {
     doubleGuess();
@@ -99,5 +87,5 @@ document.onkeyup = function(selection) {
     letterTrack();
   }
 
-  guessCounter();
+  getStats();
 };
