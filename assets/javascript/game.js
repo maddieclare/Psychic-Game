@@ -1,6 +1,9 @@
 // variable containing all letters of the alphabet
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
 
+// compChoice var needs declaring outside of function
+var compChoice;
+
 // array tracking letters player has previously guessed
 var lettersGuessed = [];
 
@@ -25,8 +28,12 @@ function playerStats() {
 }
 
 // selects character at random from alphabet variable
-var compChoice = alphabet.charAt(Math.random() * 26);
-console.log("Computer's selection: " + compChoice);
+function compSelect() {
+  compChoice = alphabet.charAt(Math.random() * 26);
+  console.log("Computer's selection: " + compChoice);
+}
+
+compSelect();
 
 // player can guess any letter of the alphabet by pressing the corresponding key
 document.onkeyup = function(selection) {
@@ -47,12 +54,12 @@ document.onkeyup = function(selection) {
   // pushes valid player guesses to lettersGuessed array
   function letterTrack() {
     lettersGuessed.push(userGuess);
+    guessesLeft -= 1;
     console.log("Letters guessed: " + lettersGuessed);
   }
 
   // decreases guessesLeft variable by 1 after each valid (incorrect) user guess
   function guessCounter() {
-    guessesLeft -= 1;
     console.log("Guesses left: " + guessesLeft);
   }
 
@@ -62,7 +69,9 @@ document.onkeyup = function(selection) {
     playerLosses += 1;
     lettersGuessed = [];
     guessesLeft = 9;
+    console.clear();
     console.log("Player losses: " + playerLosses);
+    console.log("Player wins: " + playerWins);
   }
 
   // player win condition
@@ -71,21 +80,25 @@ document.onkeyup = function(selection) {
     playerWins += 1;
     lettersGuessed = [];
     guessesLeft = 9;
+    console.clear();
     console.log("Player wins: " + playerWins);
+    console.log("Player losses: " + playerLosses);
   }
 
-  if (alphabet.search(userGuess) === -1) {
+  if (userGuess == compChoice) {
+    playerWin();
+    compSelect();
+  } else if (alphabet.search(userGuess) === -1) {
+    // need to figure out why the above statement doesn't work for full stops
     notLetter();
-    guessCounter();
   } else if (lettersGuessed.indexOf(userGuess) !== -1) {
     doubleGuess();
-    guessCounter();
-  } else if (userGuess == compChoice) {
-    playerWin();
   } else if (guessesLeft == 1) {
     playerLoss();
+    compSelect();
   } else {
     letterTrack();
-    guessCounter();
   }
+
+  guessCounter();
 };
