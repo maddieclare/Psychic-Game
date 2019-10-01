@@ -30,6 +30,7 @@ function getStats() {
 // selects character at random from alphabet variable
 function compSelect() {
   compChoice = alphabet.charAt(Math.random() * 26);
+  console.log(compChoice);
 }
 
 // prevents player from guessing the same letter twice
@@ -44,7 +45,7 @@ function notLetter() {
 
 // pushes valid player guesses to lettersGuessed array and decreases guessesLeft variable by 1
 function letterTrack() {
-  lettersGuessed.push(userGuess);
+  lettersGuessed.push(" " + userGuess);
   guessesLeft -= 1;
 }
 
@@ -76,7 +77,7 @@ document.onkeyup = function(selection) {
   if (userGuess == compChoice) {
     playerWin();
     compSelect();
-  } else if (userGuess.search(/^[A-Za-z]+$/)) {
+  } else if (alphabet.indexOf(userGuess) == -1) {
     notLetter();
   } else if (lettersGuessed.indexOf(userGuess) !== -1) {
     doubleGuess();
